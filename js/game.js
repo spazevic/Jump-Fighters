@@ -7,35 +7,32 @@ let menuScene = new Phaser.Scene('Menu')
 
 let config = {
   type: Phaser.AUTO,  
-  height: 560, 
-  width: 920,
+  height: 720, 
+  width: 1260,
   scene: [menuScene, gameScene, endScene]
 };
  
 
 let game = new Phaser.Game(config);
 
-
+const SPEED = 5;
 
 
 
 gameScene.init = function() {
-this.player1Speed = 4;
-this.player2Speed = 4;
+this.player1Speed = SPEED;
+this.player2Speed = SPEED;
  
 }
 
 menuScene.preload = function() {
-	this.load.image('menuScreen', 'images/sky.jpeg')
-	this.load.spritesheet('Ichi-Stand-R', 'images/Ichi-Stand-R.png',{frameWidth: 320.5, frameHeight: 220})
-	this.load.spritesheet('Ichi-Stand-L', 'images/Ichi-Stand-L.png',{frameWidth: 320.5, frameHeight: 220})
-	this.load.spritesheet('Nar-Stand', 'images/Nar-Stand-Sheet.png', {frameWidth: 152.5, frameHeight: 220})
+	this.menuLoad()
 }
-
 endScene.preload = function () { 
-	this.load.image('endScreen','images/end-screen-test.jpeg')
-	this.load.image('player1', 'images/naruto-stand-right.png');
-	this.load.image('Ichi-R', 'images/Ichi-Stand-0.png')
+	this.load.image('endScreen','images/sky.jpeg')
+	this.load.image('p1Win' , 'images/p1Win.png')
+	this.load.image('p2Win' , 'images/p2Win.png')
+	this.load.image('restartBtn', 'images/restart.png')
 
 }
 
@@ -59,11 +56,9 @@ gameScene.preload = function() {
  	this.load.image('HP-Bar2-1', 'images/HP2-20.png')
  	this.load.image('HP-Bar2-0', 'images/HP2-0.png')
 
- 	//this.musicPre();
+ 	this.musicPre();
 }
 
-let hit1;
-let hit2;
 let right1;
 let left1;
 let right2;
@@ -84,17 +79,19 @@ let p2;
 let p1Block;
 let p2Block;
 let music;
+let victor;
+let bar1HP;
+let bar2HP;
 
 menuScene.create = function() {
 	p1 = 1;
 	p2 = 1;
 	right = false
 	left = false;
+	music = 6
 	let main = this.add.sprite(0,0, 'menuScreen')
 	main.setOrigin(0,0)
-
-
-	this.menuLoad();
+	this.menuCreate();
 
 
 }
@@ -102,7 +99,13 @@ endScene.create = function() {
 	let end = this.add.sprite(0,0, 'endScreen')
 	end.setOrigin(0,0)
 
-	this.restartBtn = this.add.sprite(150, 150, 'Ichi-R');
+	if (victor == 1) {
+		this.winner = this.add.sprite(this.sys.game.config.width / 2,100, 'p1Win')
+	} else {
+		this.winner = this.add.sprite(this.sys.game.config.width /2 ,100, 'p2Win')
+	}
+
+	this.restartBtn = this.add.sprite(this.sys.game.config.width / 2, this.sys.game.config.height / 1.5, 'restartBtn').setScale(.4);
 
 	this.restartBtn.setInteractive();
 
@@ -113,44 +116,42 @@ endScene.create = function() {
 }
 
 gameScene.create = function() {
-	this.HP1 = 5;
-	this.HP2 = 5;
+	this.HP1 = 20;
+	this.HP2 = 20;
+	this.bar1HP = 5;
+	this.bar2HP = 5;
 	this.hit1 = 0;
 	this.hit2 = 0;
 	this. p1Block = false;
 	this.p2Block = false;
-	let bg = this.add.sprite(0, 0, 'background');
+	let bg = this.add.sprite(0, -300, 'background');
 
 	bg.setOrigin(0,0);
 
 	
-		
-
 	this.charSetCreate();
 
 
-	this.player1.setScale(.5);
- 	
-
-	this.player2.setScale(.5);
+	this.player1.setScale(.7);
+	this.player2.setScale(.7);
 
 
 
-	let bar1 = this.add.sprite(600,0, 'HP-Bar2-5');
+	let bar1 = this.add.sprite(950,0, 'HP-Bar2-5').setScale(.5);
 	
 
 
 	bar1.setOrigin(0,0)
 
-	bar1.setScale(.5)
+	
 
-	let bar2 = this.add.sprite(0,0, 'HP-Bar1-5');
+	let bar2 = this.add.sprite(0,0, 'HP-Bar1-5').setScale(.5);
 	
 
 
 	bar2.setOrigin(0,0)
 
-	bar2.setScale(.5)
+
 
 
 	rightKey1 = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
@@ -161,15 +162,15 @@ gameScene.create = function() {
 
 	leftKey2 = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
 
-	attackKey1 = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.C);
+	attackKey1 = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
 
-	attackKey2 = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.L);
+	attackKey2 = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN);
 
 	blockKey1 = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
 
 	blockKey2 = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
 
-	//this.musicCreate();
+	this.musicCreate();
 
  
  
@@ -225,16 +226,16 @@ gameScene.update = function() {
  	    left1 = false
  	    right2 = false
  	    left2 = false
-    	console.log('Player 2 wins')
-    	//this.musicStop();
+ 	    victor = 2;
+    	this.musicStop();
     	this.scene.start(endScene)
     } else if (this.HP2 == 0) {
     	right1 = false
     	left1 = false
     	right2 = false
  	    left2 = false
-    	console.log('Player 1 wins')
-    	//this.musicStop();
+ 	    victor = 1;
+    	this.musicStop();
     	this.scene.start(endScene)
     }
  } 
@@ -244,8 +245,8 @@ gameScene.update = function() {
  	if (this.player1.x < 0) {
  		this.player1.x = 0
  	}
- 	if (this.player2.x > 920) {
- 		this.player2.x = 920
+ 	if (this.player2.x > 1260) {
+ 		this.player2.x = 1260
  	}
 
 
