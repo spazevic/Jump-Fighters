@@ -1,3 +1,4 @@
+//loads all menu sprites and images
 menuScene.menuLoad = function() {
 	this.load.image('menuScreen', 'images/sky.jpeg')
 	this.load.spritesheet('Ichi-Stand-R', 'images/Ichi-Stand-R.png',{frameWidth: 320.5, frameHeight: 220})
@@ -13,7 +14,7 @@ menuScene.menuLoad = function() {
 	this.load.image('p2Text', 'images/P2.png')
 }
 
-
+//creates menu sprites
 menuScene.menuCreate = function() {
 	this.narutoChoose1 = this.add.sprite(50, this.sys.game.config.height / 2, 'Nar-Stand').setScale(.5);
 	this.ichigoChoose1 = this.add.sprite(250, this.sys.game.config.height / 2, 'Ichi-Stand-R').setScale(.5);
@@ -31,7 +32,7 @@ menuScene.menuCreate = function() {
 	this.startBtn = this.add.sprite(this.sys.game.config.width/2, this.sys.game.config.height - 100, 'Start').setScale(.5);
 
 	
-
+	//sets animations for char selectors
 	this.anims.create({
     key: 'N-left',
     frames: this.anims.generateFrameNumbers('Nar-Stand', { start: 0, end: 3 }),
@@ -87,7 +88,7 @@ menuScene.menuCreate = function() {
 	    repeat: -1
 	});	
 
-	//sets all interactives
+	//sets all interactives for char selectors
 	this.narutoChoose1.setInteractive();
 	this.ichigoChoose1.setInteractive();
 	this.narutoChoose2.setInteractive();
@@ -99,7 +100,7 @@ menuScene.menuCreate = function() {
 	this.startBtn.setInteractive();
 
 
-	
+	//applies character for chosen image on both player sides
 		this.narutoChoose1.on('pointerdown', () => {
 			p1 = 1
 			//this.scene.start(gameScene)
@@ -139,7 +140,7 @@ menuScene.menuCreate = function() {
 			this.scene.start(gameScene)
 		});
 }
-
+//plays the animations for char selectors
 menuScene.menuUpdate = function() {
 	this.narutoChoose1.anims.play('N-right', true)
 	this.narutoChoose2.anims.play('N-left', true)

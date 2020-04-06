@@ -1,5 +1,5 @@
+//tests for movement key input, plays movement animations and moves players
 gameScene.move = function () {
-
 	if (rightKey1.isDown && this.p1Block == false) {
 		if (p1 == 1) {
  		this.player1.anims.play('N-Run-R', true)
@@ -72,16 +72,11 @@ gameScene.move = function () {
     	right2 = false
     	left2 = false
     }
-
-    
-
 }
 
+//tests for collision and stops players if colliding, also checks if attacks land
 gameScene.collision = function () {
-	//if (Phaser.Geom.Intersects.RectangleToRectangle(this.player1.getBounds(), this.player2.getBounds())) {
 		if (this.player1.x + 20 >= this.player2.x) {
-  		
-
     	if (right1) {
     		this.player1Speed = 0;
     	}
@@ -96,14 +91,14 @@ gameScene.collision = function () {
     	}
 
 
-	    
+	    //allows players to move both directions when not colliding
     } 
     if (!Phaser.Geom.Intersects.RectangleToRectangle(this.player1.getBounds(), this.player2.getBounds())) {
     	this.player2Speed = SPEED
     	this.player1Speed = SPEED
     }
 
-
+    //if within range checks for attacks
     if (this.player1.x + 100>= this.player2.x) {
 
      if (Phaser.Input.Keyboard.JustDown(attackKey1)){
@@ -113,11 +108,11 @@ gameScene.collision = function () {
 	     	this.player2.x += 50
 	    	this.player1Speed = 4;
 	    	this.player2Speed = 4;
+        //checks for blocking
 	    	if (!this.p2Block) {
 	    		this.HP2--;
           if (this.HP2 % 4 == 0) {
             this.bar2HP--;
-           // bar1 = this.add.sprite(950,0, `HP-Bar2-${this.bar2HP}`);
           }
 	    		 bar1 = this.add.sprite(950,0, `HP-Bar2-${this.bar2HP}`);
 	    		bar1.setOrigin(0,0)
@@ -133,6 +128,7 @@ gameScene.collision = function () {
 	     	this.player1.x -= 50
 		   	this.player1Speed = 4;
 	    	this.player2Speed = 4;
+        //checks for blocking
 	    	if (!this.p1Block) {
 	   	    	this.HP1--;
             if (this.HP1 % 4 == 0) {
@@ -145,48 +141,3 @@ gameScene.collision = function () {
 	     }
 	 }
 }
-
-
-
-
-	     // this.attackKey1.on('KeyDown', function(event) {
-	     // 	console.log('bam')
-	     // })
- //move(player1)
-
-	// if (this.rightKey1.isDown) {
- 
- //    	this.player1.x += this.player1Speed;
- //  	}
- //    if (this.leftKey1.isDown) {
- 
- //    	this.player1.x -= this.player1Speed;
- //    }
-
- //    if (this.rightKey2.isDown) {
- 
- //    	this.player2.x += this.player2Speed;
- //  	}
- //    if (this.leftKey2.isDown) {
- 
- //    	this.player2.x -= this.player2Speed;
- //    }
-
-
- 	// if (rightKey1.isDown) {
- 
-  //   	this.player1.x += this.player1Speed;
-  // 	}
-  //   if (leftKey1.isDown) {
- 
-  //   	this.player1.x -= this.player1Speed;
-  //   }
-
-  //   if (rightKey2.isDown) {
- 
-  //   	this.player2.x += this.player2Speed;
-  // 	}
-  //   if (leftKey2.isDown) {
- 
-  //   	this.player2.x -= this.player2Speed;
-  //   }

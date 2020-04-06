@@ -1,5 +1,5 @@
+//loads characters that were chosen in menu for the game
 gameScene.charSetLoad = function () {
-
 	if (p1 == 1 || p2 == 1) {
 		this.load.spritesheet('Nar-Stand', 'images/Nar-Stand-Sheet.png', {frameWidth: 152.5, frameHeight: 220})
 	 	this.load.spritesheet('Nar-Run-R', 'images/Nar-Run-R.png', {frameWidth: 184.5, frameHeight: 220})
@@ -62,10 +62,9 @@ gameScene.charSetLoad = function () {
 	 		this.load.image('p2-b', 'images/Goku-Block-L.png')
 		}
 	}
-
-
 }
 
+//creates images and animations for characters 
 gameScene.charSetCreate = function () {
 
 	
@@ -229,7 +228,7 @@ gameScene.charSetCreate = function () {
 
 	
 }
-
+//sets default animations when characters aren't doing anything
 gameScene.charSetUpdate = function() {
 	if (right1 == false &&  left1 == false && p1 == 1) {
 		this.player1.anims.play('N-right', true)
