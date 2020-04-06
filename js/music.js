@@ -25,7 +25,7 @@ gameScene.musicPre = function() {
 	} else if (p1 == 3 && p2 == 4) {
 		this.load.audio('battle', 'sounds/Luffy Moukou.mp3')
 	} else if (p1 == 4 && p2 == 1) {
-		this.load.audio('battle', 'sounds/SSJ3 Power Up.mp3')
+		this.load.audio('battle', 'sounds/SSJ3 Power Up.m4a')
 	} else if (p1 == 4 && p2 == 2) {
 		this.load.audio('battle', 'sounds/DragonBall Z.m4a')
 	} else if (p1 == 4 && p2 == 3) {
