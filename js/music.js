@@ -27,7 +27,7 @@ gameScene.musicPre = function() {
 	} else if (p1 == 4 && p2 == 1) {
 		this.load.audio('battle', 'sounds/SSJ3 Power Up.mp3')
 	} else if (p1 == 4 && p2 == 2) {
-		this.load.audio('battle', 'sounds/Dragonball Z.mp3')
+		this.load.audio('battle', 'sounds/DragonBall Z.m4a')
 	} else if (p1 == 4 && p2 == 3) {
 		this.load.audio('battle', 'sounds/Three Towers.mp3')
 	} else if (p1 == 4 && p2 == 4) {
