@@ -32,7 +32,7 @@ endScene.preload = function () {
 	this.load.image('endScreen','images/sky.jpeg')
 	this.load.image('p1Win' , 'images/p1Win.png')
 	this.load.image('p2Win' , 'images/p2Win.png')
-	this.load.image('restartBtn', 'images/restart.png')
+	this.load.image('restartBtn', 'images/Restart.png')
 
 }
 //loads HP bars, characters, and music
